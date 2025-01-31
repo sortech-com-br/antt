@@ -97,11 +97,11 @@ public class BoletoGenerator {
                 .comInstrucoes(empresaBoleto.getInstrucoes().toArray(new String[0]))
                 .comLocaisDePagamento(empresaBoleto.getLocaisDePagamento().toArray(new String[0]));
 
-        jasperPath = PATH_TEMPLATE + "/jasper/BoletoBBv1.jasper";
+        jasperPath = PATH_TEMPLATE + "/jasper/Boleto.jasper";
 
         if (Files.notExists(Paths.get(jasperPath))) {
             try {
-                JasperCompileManager.compileReportToFile(PATH_TEMPLATE + "/jasper/BoletoBBv1.jrxml",
+                JasperCompileManager.compileReportToFile(PATH_TEMPLATE + "/jasper/Boleto.jrxml",
                         jasperPath);
             } catch (JRException e) {
                 throw new RuntimeException(e);
@@ -114,8 +114,7 @@ public class BoletoGenerator {
 
             parametros.put(JRParameter.REPORT_LOCALE, new Locale("pt", "BR"));
             parametros.put("logoBancoDoBrasil", PATH_IMAGEM);
-            
-            parametros.put("QR_CODE", empresaBoleto.getQrCode());
+            parametros.put("qrCode", empresaBoleto.getQrCode());
 
             //carrega o conteúdo do arquivo em um InputStream
             InputStream templateBoleto = new FileInputStream(jasperPath);
